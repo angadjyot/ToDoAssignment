@@ -24,94 +24,94 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        retrieveData()
+       retrieveData()
     }
     
     
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return arrDict.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 75
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = (tableView.dequeueReusableCell(withIdentifier: "cell")! as? TableViewCell)!
-//
-//        var index = arrDict[indexPath.row]
-//
-//        cell.toDoLabel.text = index["name"] as? String
-//        cell.descriptionLabel.text = index["notes"] as? String
-//        let completed = index["completed"] as? Bool
-//
-//        if completed == true  {
-//            cell.switchLabel.isOn = true
-//            cell.switchLabel.isEnabled = false
-//            cell.editButtonLabel.isEnabled = false
-//
-//        }else if completed == false {
-//            cell.switchLabel.isOn = false
-//            cell.switchLabel.isEnabled = true
-//            cell.editButtonLabel.isEnabled = true
-//        }
-//
-//        cell.cellDelegate = self
-//        cell.index = indexPath
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-////        self.signal = 1
-////        dict = arrDict[indexPath.row]
-////        self.performSegue(withIdentifier: "addTask", sender: nil)
-//    }
-    
-//    func onClickCell(index: Int) {
-//        print("button clicked index is",index)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arrDict.count
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = (tableView.dequeueReusableCell(withIdentifier: "cell")! as? TableViewCell)!
+
+        var index = arrDict[indexPath.row]
+
+        cell.toDoLabel.text = index["name"] as? String
+        cell.descriptionLabel.text = index["notes"] as? String
+        let completed = index["completed"] as? Bool
+
+        if completed == true  {
+            cell.switchLabel.isOn = true
+            cell.switchLabel.isEnabled = false
+            cell.editButtonLabel.isEnabled = false
+
+        }else if completed == false {
+            cell.switchLabel.isOn = false
+            cell.switchLabel.isEnabled = true
+            cell.editButtonLabel.isEnabled = true
+        }
+
+        cell.cellDelegate = self
+        cell.index = indexPath
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        self.signal = 1
-//        dict = arrDict[index]
-//        print("dictionary is",dict)
+//        dict = arrDict[indexPath.row]
 //        self.performSegue(withIdentifier: "addTask", sender: nil)
-//    }
+    }
     
-//    func onClickSwitch(index: Int) {
-//        print("switch clicked",index)
-//        dict = arrDict[index]
-//        updateTask(docId: (dict["docId"] as? String)!, index: index)
-//    }
+    func onClickCell(index: Int) {
+        print("button clicked index is",index)
+        self.signal = 1
+        dict = arrDict[index]
+        print("dictionary is",dict)
+        self.performSegue(withIdentifier: "addTask", sender: nil)
+    }
     
-//    func updateTask(docId:String,index:Int){
-//            dict = arrDict[index]
-//            db = Firestore.firestore()
-//            let para = ["completed":true]
-//            db?.collection("users").document(docId).updateData(para){
-//                err in
-//                if let err = err {
-//                    print("Error writing document: \(err.localizedDescription)")
-//                } else {
-//                    print("Document successfully written!")
-//                }
-//            }
-//
-//    }
+    func onClickSwitch(index: Int) {
+        print("switch clicked",index)
+        dict = arrDict[index]
+        updateTask(docId: (dict["docId"] as? String)!, index: index)
+    }
+    
+    func updateTask(docId:String,index:Int){
+            dict = arrDict[index]
+            db = Firestore.firestore()
+            let para = ["completed":true]
+            db?.collection("users").document(docId).updateData(para){
+                err in
+                if let err = err {
+                    print("Error writing document: \(err.localizedDescription)")
+                } else {
+                    print("Document successfully written!")
+                }
+            }
+
+    }
     
 
-//    func retrieveData(){
-//        db = Firestore.firestore()
-//        let uid = self.defaults.string(forKey: "userUid")
-//
-//        db?.collection("users").whereField("userUid", isEqualTo: uid!).addSnapshotListener({ (snap, err) in
-//            self.arrDict.removeAll()
-//            for i in snap!.documents{
-////                print(i.)
-//                self.arrDict.append(i.data())
-//            }
-//
-//                self.table.reloadData()
-//        })
-//
-//    }
+    func retrieveData(){
+        db = Firestore.firestore()
+        let uid = self.defaults.string(forKey: "userUid")
+
+        db?.collection("users").whereField("userUid", isEqualTo: uid!).addSnapshotListener({ (snap, err) in
+            self.arrDict.removeAll()
+            for i in snap!.documents{
+//                print(i.)
+                self.arrDict.append(i.data())
+            }
+
+                self.table.reloadData()
+        })
+
+    }
     
     
 //    func setdata(){
