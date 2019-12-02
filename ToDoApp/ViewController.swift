@@ -135,42 +135,42 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     
     
     
-//    @IBAction func addTask(_ sender: UIBarButtonItem) {
-//        self.signal = 0
-//        self.performSegue(withIdentifier: "addTask", sender: nil)
-//    }
+    @IBAction func addTask(_ sender: UIBarButtonItem) {
+        self.signal = 0
+        self.performSegue(withIdentifier: "addTask", sender: nil)
+    }
     
     
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "addTask"{
-//            let vc = segue.destination as? AddTaskViewController
-//
-//            if signal == 0{
-//              vc?.signal = signal
-//            }else if signal == 1{
-//              vc?.signal = signal
-//              vc?.arrDict = dict
-//            }
-//
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addTask"{
+            let vc = segue.destination as? AddTaskViewController
+
+            if signal == 0{
+              vc?.signal = signal
+            }else if signal == 1{
+              vc?.signal = signal
+              vc?.arrDict = dict
+            }
+
+        }
+    }
     
  
     
-//    @IBAction func logout(_ sender: UIBarButtonItem) {
-//        do{
-//            try Auth.auth().signOut()
-//            self.defaults.set("", forKey: "userUid")
-//            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-//            let root = storyBoard.instantiateViewController(withIdentifier: "main")
-//            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//            appDelegate.window?.rootViewController = root
-//        }catch let err{
-//            print("error signing out",err.localizedDescription)
-//            self.dismiss(animated: true, completion: nil)
-//        }
-//    }
+    @IBAction func logout(_ sender: UIBarButtonItem) {
+        do{
+            try Auth.auth().signOut()
+            self.defaults.set("", forKey: "userUid")
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let root = storyBoard.instantiateViewController(withIdentifier: "main")
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window?.rootViewController = root
+        }catch let err{
+            print("error signing out",err.localizedDescription)
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     
     
 }
