@@ -9,7 +9,6 @@
 import UIKit
 import FirebaseFirestore
 
-
 class AddTaskViewController: UIViewController {
 
 
@@ -24,15 +23,16 @@ class AddTaskViewController: UIViewController {
     var db:Firestore?
     let defaults = UserDefaults.standard
     var arrDict = [String:Any]()
-
+    var indicator = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationController?.navigationBar.tintColor = UIColor.white
 
 //        print("signal is",signal!)
-
-
+        
+        activityIndicator()
 
         toDoName.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
         toDoName.layer.borderWidth = 1.0
@@ -84,8 +84,17 @@ class AddTaskViewController: UIViewController {
 
     }
 
+    @objc func activityIndicator(){
+        indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40.0, height: 40.0))
+        indicator.style = .gray
+        indicator.center = self.view.center
+        self.view.addSubview(indicator)
+    }
+    
+    
 
     func updateData(){
+        self.indicator.startAnimating()
         db = Firestore.firestore()
         let uid = self.defaults.string(forKey: "userUid")
 
@@ -95,8 +104,18 @@ class AddTaskViewController: UIViewController {
             err in
             if let error = err{
                 print(error.localizedDescription)
+                self.indicator.stopAnimating()
             }else{
                 print("document added successfully")
+                self.indicator.stopAnimating()
+                let alert = UIAlertController(title: "Message", message: "Successfully Updated", preferredStyle: .alert)
+                let okay = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                    self.navigationController?.popViewController(animated: true)
+                })
+                alert.addAction(okay)
+                self.present(alert, animated: true, completion: nil)
+                
+                
             }
 
         }
@@ -104,6 +123,7 @@ class AddTaskViewController: UIViewController {
 
 
     func addData(){
+        self.indicator.startAnimating()
         db = Firestore.firestore()
         let uid = self.defaults.string(forKey: "userUid")
 
@@ -116,8 +136,16 @@ class AddTaskViewController: UIViewController {
             err in
             if let error = err{
                 print(error.localizedDescription)
+                self.indicator.stopAnimating()
             }else{
                 print("document added successfully")
+                self.indicator.stopAnimating()
+                let alert = UIAlertController(title: "Message", message: "Successfully added", preferredStyle: .alert)
+                let okay = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                    self.navigationController?.popViewController(animated: true)
+                })
+                alert.addAction(okay)
+                self.present(alert, animated: true, completion: nil)
             }
 
         }
@@ -132,14 +160,22 @@ class AddTaskViewController: UIViewController {
 
 
     @IBAction func deleteAction(_ sender: UIButton) {
+        self.indicator.startAnimating()
         db = Firestore.firestore()
         db?.collection("users").document((arrDict["docId"] as? String)!).delete(){
             err in
             if let error = err{
                 print(error.localizedDescription)
+                self.indicator.stopAnimating()
             }else{
                 print("document deleted successfully")
-                self.navigationController?.popViewController(animated: true)
+                self.indicator.stopAnimating()
+                let alert = UIAlertController(title: "Message", message: "Successfully Deleted", preferredStyle: .alert)
+                let okay = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                    self.navigationController?.popViewController(animated: true)
+                })
+                alert.addAction(okay)
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }

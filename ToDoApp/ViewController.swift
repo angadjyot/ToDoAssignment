@@ -21,6 +21,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     var dict = [String:Any]()
     
     let defaults = UserDefaults.standard
+    var indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +83,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
     
     func updateTask(docId:String,index:Int){
+            self.indicator.startAnimating()
             dict = arrDict[index]
             db = Firestore.firestore()
             let para = ["completed":true]
@@ -91,9 +93,22 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
                     print("Error writing document: \(err.localizedDescription)")
                 } else {
                     print("Document successfully written!")
+                    self.indicator.stopAnimating()
+                    let alert = UIAlertController(title: "Message", message: "Status successfully updated", preferredStyle: .alert)
+                    let okay = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                    })
+                    alert.addAction(okay)
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
 
+    }
+    
+    @objc func activityIndicator(){
+        indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40.0, height: 40.0))
+        indicator.style = .gray
+        indicator.center = self.view.center
+        self.view.addSubview(indicator)
     }
     
 
