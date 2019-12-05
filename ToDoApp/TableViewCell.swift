@@ -8,7 +8,7 @@
 //Author's name - Angadjot singh
 // app name - The ToDo App
 //  Student ID - 301060981
-// file description  - File for custom table view 
+// file description  - File for custom table view
 
 import UIKit
 
@@ -17,7 +17,7 @@ protocol TableViewNew {
     func onClickSwitch(index:Int)
 }
 
-
+     
 
 class TableViewCell: UITableViewCell {
 
