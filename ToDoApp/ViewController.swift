@@ -5,6 +5,13 @@
 //  Created by Angadjot singh on 19/11/19.
 //  Copyright © 2019 Angadjot singh. All rights reserved.
 //
+// name - Angadjot singh
+//Author's name - Angadjot singh
+// app name - The ToDo App
+//  Student ID - 301060981
+// file description  - File for displaying the todo list with edit button and switch to update the status
+
+
 
 import UIKit
 import FirebaseFirestore
@@ -14,6 +21,8 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     
     @IBOutlet weak var table: UITableView!
     
+    
+//    initializing the variables
     var db:Firestore?
     var arr = ["hello","bye"]
     var signal:Int?
@@ -28,15 +37,18 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
        retrieveData()
     }
     
+//    table view methods
     
+//     function for number of rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrDict.count
     }
 
+//     function for height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
     }
-
+//function for setting the data into the cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = (tableView.dequeueReusableCell(withIdentifier: "cell")! as? TableViewCell)!
 
@@ -68,6 +80,8 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
 //        self.performSegue(withIdentifier: "addTask", sender: nil)
     }
     
+    
+//    function for onclick edit button
     func onClickCell(index: Int) {
         print("button clicked index is",index)
         self.signal = 1
@@ -76,12 +90,15 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         self.performSegue(withIdentifier: "addTask", sender: nil)
     }
     
+//    function for onclick switch
     func onClickSwitch(index: Int) {
         print("switch clicked",index)
         dict = arrDict[index]
         updateTask(docId: (dict["docId"] as? String)!, index: index)
     }
     
+    
+//  function for update task
     func updateTask(docId:String,index:Int){
             self.indicator.startAnimating()
             dict = arrDict[index]
@@ -106,7 +123,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
         
     }
-    
+//  function for activity indicator
     @objc func activityIndicator(){
         indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40.0, height: 40.0))
         indicator.style = .gray
@@ -114,19 +131,28 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         self.view.addSubview(indicator)
     }
     
-
+//  function for retrieving data
     func retrieveData(){
         db = Firestore.firestore()
         let uid = self.defaults.string(forKey: "userUid")
 
         db?.collection("users").whereField("userUid", isEqualTo: uid!).addSnapshotListener({ (snap, err) in
-            self.arrDict.removeAll()
-            for i in snap!.documents{
-//                print(i.)
-                self.arrDict.append(i.data())
-            }
-
+            
+            if snap?.documents.count == 0{
+                let alert = UIAlertController(title: "Message", message: "No tasks Available", preferredStyle: .alert)
+                let okay = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                })
+                alert.addAction(okay)
+                self.present(alert, animated: true, completion: nil)
+            }else{
+                self.arrDict.removeAll()
+                for i in snap!.documents{
+                    //                print(i.)
+                    self.arrDict.append(i.data())
+                }
+                
                 self.table.reloadData()
+            }
         })
 
     }
@@ -159,7 +185,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
     
     
-    
+//   function for sending data to next view controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addTask"{
             let vc = segue.destination as? AddTaskViewController
@@ -175,7 +201,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
     
  
-    
+//   function for logout
     @IBAction func logout(_ sender: UIBarButtonItem) {
         do{
             try Auth.auth().signOut()

@@ -5,12 +5,17 @@
 //  Created by Angadjot singh on 20/11/19.
 //  Copyright © 2019 Angadjot singh. All rights reserved.
 //
+// name - Angadjot singh
+//Author's name - Angadjot singh
+// app name - The ToDo App
+//  Student ID - 301060981
+// file description  - File for adding , updating , deleting the particular task according to the uid
+
 
 import UIKit
 import FirebaseFirestore
 
 class AddTaskViewController: UIViewController {
-
 
     @IBOutlet weak var toDoName: UITextView!
     @IBOutlet weak var descriptionText: UITextView!
@@ -18,6 +23,8 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var addUpdateButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
+
+//    initializing the variables
 
     var signal:Int?
     var db:Firestore?
@@ -34,6 +41,7 @@ class AddTaskViewController: UIViewController {
         
         activityIndicator()
 
+//    functionaliy for textviews
         toDoName.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
         toDoName.layer.borderWidth = 1.0
         toDoName.layer.cornerRadius = 5
@@ -43,7 +51,7 @@ class AddTaskViewController: UIViewController {
         descriptionText.layer.borderWidth = 1.0
         descriptionText.layer.cornerRadius = 5
 
-
+//    functionaliy for buttons
         self.addUpdateButton.layer.cornerRadius = 10.0
         self.addUpdateButton.layer.masksToBounds = true
 
@@ -54,6 +62,7 @@ class AddTaskViewController: UIViewController {
         self.cancelButton.layer.masksToBounds = true
 
 
+        //    functionaliy for hiding the buttons according to the signal
         if signal == 0{
             self.addUpdateButton.setTitle("Add", for: .normal)
             self.cancelButton.isHidden = true
@@ -84,6 +93,8 @@ class AddTaskViewController: UIViewController {
 
     }
 
+    
+//   function for indicator
     @objc func activityIndicator(){
         indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40.0, height: 40.0))
         indicator.style = .gray
@@ -92,6 +103,7 @@ class AddTaskViewController: UIViewController {
     }
     
     
+//    function for updating the data
 
     func updateData(){
         self.indicator.startAnimating()
@@ -121,7 +133,7 @@ class AddTaskViewController: UIViewController {
         }
     }
 
-
+//    function for adding the data
     func addData(){
         self.indicator.startAnimating()
         db = Firestore.firestore()
@@ -157,7 +169,7 @@ class AddTaskViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
-
+//    function for deleting the data
 
     @IBAction func deleteAction(_ sender: UIButton) {
         self.indicator.startAnimating()

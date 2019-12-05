@@ -4,7 +4,11 @@
 //
 //  Created by Angadjot singh on 30/11/19.
 //  Copyright © 2019 Angadjot singh. All rights reserved.
-//
+//// name - Angadjot singh
+//Author's name - Angadjot singh
+// app name - The ToDo App
+//  Student ID - 301060981
+// file description  - File for custom table view 
 
 import UIKit
 
